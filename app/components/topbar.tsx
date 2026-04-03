@@ -36,6 +36,12 @@ export default function TopBar({ title, subtitle, simple = false }: TopBarProps)
             Parts
           </a>
           <a
+            href="/work-log"
+            className="rounded-xl border border-zinc-700 px-4 py-2 text-sm text-zinc-300"
+          >
+            Work Log
+          </a>
+          <a
             href="/add-car"
             className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-black"
           >
