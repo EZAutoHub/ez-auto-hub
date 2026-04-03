@@ -1,4 +1,4 @@
-import TopBar from "../components/topbar";
+import TopBar from "../../components/topbar";
 export default function CarDetailsPage() {
   return (
     <main className="min-h-screen bg-zinc-950 text-white">
