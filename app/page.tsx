@@ -51,9 +51,12 @@ export default function Home() {
               >
                 Open Car
               </a>
-              <button className="rounded-xl border border-zinc-700 px-4 py-2 text-sm text-zinc-300">
-                Add Work
-              </button>
+             <a
+  href="/work-log"
+  className="rounded-xl border border-zinc-700 px-4 py-2 text-sm text-zinc-300"
+>
+  Add Work
+</a>
             </div>
           </article>
 
