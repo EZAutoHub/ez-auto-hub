@@ -2,19 +2,35 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-zinc-950 text-white">
       <div className="mx-auto max-w-6xl px-6 py-10">
-        <header className="mb-10 flex items-center justify-between border-b border-zinc-800 pb-6">
+        <header className="mb-10 flex items-start justify-between border-b border-zinc-800 pb-6">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">EZ Auto Hub</h1>
             <p className="mt-2 text-sm text-zinc-400">
               Multi-tenant garage workflow and vehicle sales platform
             </p>
+
+            <div className="mt-4 flex gap-3">
+              <a
+                href="/"
+                className="rounded-xl border border-zinc-700 px-4 py-2 text-sm text-zinc-300"
+              >
+                My Cars
+              </a>
+              <a
+                href="/parts"
+                className="rounded-xl border border-zinc-700 px-4 py-2 text-sm text-zinc-300"
+              >
+                Parts
+              </a>
+            </div>
           </div>
+
           <a
-  href="/add-car"
-  className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-black"
->
-  Add Car
-</a>
+            href="/add-car"
+            className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-black"
+          >
+            Add Car
+          </a>
         </header>
 
         <section className="mb-8">
@@ -54,12 +70,12 @@ export default function Home() {
             </div>
 
             <div className="mt-5 flex gap-2">
-<a
-  href="/cars/1"
-  className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-black"
->
-  Open Car
-</a>
+              <a
+                href="/cars/1"
+                className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-black"
+              >
+                Open Car
+              </a>
               <button className="rounded-xl border border-zinc-700 px-4 py-2 text-sm text-zinc-300">
                 Add Work
               </button>
