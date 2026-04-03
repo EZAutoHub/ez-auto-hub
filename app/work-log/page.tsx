@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import TopBar from "../components/topbar";
 import { supabase } from "../lib/supabase";
@@ -29,7 +29,7 @@ type WorkLog = {
   } | null;
 };
 
-export default function WorkLogPage() {
+function WorkLogContent() {
   const searchParams = useSearchParams();
   const preselectedCarId = searchParams.get("carId");
 
@@ -258,5 +258,28 @@ export default function WorkLogPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function WorkLogPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="min-h-screen bg-zinc-950 text-white">
+          <div className="mx-auto max-w-5xl px-6 py-10">
+            <TopBar
+              title="Work Log"
+              subtitle="Track labour entries and time spent across vehicles"
+              simple
+            />
+            <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
+              Loading work log...
+            </div>
+          </div>
+        </main>
+      }
+    >
+      <WorkLogContent />
+    </Suspense>
   );
 }
