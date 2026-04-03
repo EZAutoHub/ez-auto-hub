@@ -1,6 +1,38 @@
 import TopBar from "../../components/topbar";
+import { supabase } from "../../lib/supabase";
 
-export default function CarDetailsPage() {
+type CarPageProps = {
+  params: Promise<{
+    id: string;
+  }>;
+};
+
+export default async function CarDetailsPage({ params }: CarPageProps) {
+  const { id } = await params;
+
+  const { data: car, error } = await supabase
+    .from("cars")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error || !car) {
+    return (
+      <main className="min-h-screen bg-zinc-950 text-white">
+        <div className="mx-auto max-w-6xl px-6 py-10">
+          <TopBar title="Car Details" subtitle="Vehicle overview, findings, work, and costs" simple />
+
+          <div className="rounded-2xl border border-red-800 bg-red-950 p-6 text-red-300">
+            Car not found.
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  const invested =
+    Number(car.purchase_price ?? 0) + Number(car.recovery_transport_cost ?? 0);
+
   return (
     <main className="min-h-screen bg-zinc-950 text-white">
       <div className="mx-auto max-w-6xl px-6 py-10">
@@ -9,8 +41,11 @@ export default function CarDetailsPage() {
         <div className="mb-8 flex items-start justify-between border-b border-zinc-800 pb-6">
           <div>
             <p className="text-sm text-zinc-400">Registration</p>
-            <h1 className="text-4xl font-bold">AB12 CDE</h1>
-            <p className="mt-2 text-zinc-400">2016 BMW 320D · Purchased</p>
+            <h1 className="text-4xl font-bold">{car.registration}</h1>
+            <p className="mt-2 text-zinc-400">
+              {[car.year, car.make, car.model].filter(Boolean).join(" ") || "Vehicle"} ·{" "}
+              {car.status ?? "Purchased"}
+            </p>
           </div>
 
           <div className="flex gap-3">
@@ -28,39 +63,31 @@ export default function CarDetailsPage() {
             <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
               <h2 className="mb-4 text-xl font-semibold">Vehicle Details</h2>
               <div className="grid gap-3 text-sm text-zinc-300 md:grid-cols-2">
-                <p>Make: BMW</p>
-                <p>Model: 320D</p>
-                <p>Year: 2016</p>
-                <p>Fuel: Diesel</p>
-                <p>Engine: 2.0</p>
-                <p>Transmission: Automatic</p>
-                <p>Colour: Black</p>
-                <p>Mileage: 120,000</p>
+                <p>Make: {car.make || "—"}</p>
+                <p>Model: {car.model || "—"}</p>
+                <p>Year: {car.year ?? "—"}</p>
+                <p>Fuel: {car.fuel_type || "—"}</p>
+                <p>Engine: {car.engine || "—"}</p>
+                <p>Transmission: {car.transmission || "—"}</p>
+                <p>Colour: {car.colour || "—"}</p>
+                <p>Mileage: {car.mileage ?? "—"}</p>
+                <p>VIN: {car.vin || "—"}</p>
+                <p>Status: {car.status || "Purchased"}</p>
               </div>
             </div>
 
             <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
               <div className="mb-4 flex items-center justify-between">
-                <h2 className="text-xl font-semibold">Diagnostic Findings</h2>
+                <h2 className="text-xl font-semibold">Initial Notes</h2>
                 <button className="rounded-xl border border-zinc-700 px-4 py-2 text-sm text-zinc-300">
                   Add Finding
                 </button>
               </div>
 
-              <div className="space-y-3">
-                <div className="rounded-xl border border-zinc-800 bg-zinc-950 p-4">
-                  <p className="font-medium">Non-runner - battery flat</p>
-                  <p className="mt-1 text-sm text-zinc-400">
-                    Vehicle arrived non-starting. Battery discharged.
-                  </p>
-                </div>
-
-                <div className="rounded-xl border border-zinc-800 bg-zinc-950 p-4">
-                  <p className="font-medium">Front suspension noise</p>
-                  <p className="mt-1 text-sm text-zinc-400">
-                    Suspected drop link or wishbone issue.
-                  </p>
-                </div>
+              <div className="rounded-xl border border-zinc-800 bg-zinc-950 p-4">
+                <p className="text-sm text-zinc-300">
+                  {car.initial_notes || "No notes added yet."}
+                </p>
               </div>
             </div>
 
@@ -75,16 +102,8 @@ export default function CarDetailsPage() {
                 </a>
               </div>
 
-              <div className="space-y-3 text-sm text-zinc-300">
-                <div className="rounded-xl border border-zinc-800 bg-zinc-950 p-4">
-                  <p className="font-medium">Battery replaced</p>
-                  <p className="mt-1 text-zinc-400">2.0 hours · £50/hr · £100</p>
-                </div>
-
-                <div className="rounded-xl border border-zinc-800 bg-zinc-950 p-4">
-                  <p className="font-medium">Initial engine inspection</p>
-                  <p className="mt-1 text-zinc-400">1.5 hours · £50/hr · £75</p>
-                </div>
+              <div className="rounded-xl border border-zinc-800 bg-zinc-950 p-4 text-sm text-zinc-400">
+                Work log entries will appear here next.
               </div>
             </div>
           </div>
@@ -93,11 +112,11 @@ export default function CarDetailsPage() {
             <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
               <h2 className="mb-4 text-xl font-semibold">Financial Summary</h2>
               <div className="space-y-2 text-sm text-zinc-300">
-                <p>Purchase price: £4,500</p>
-                <p>Recovery cost: £150</p>
-                <p>Parts total: £0</p>
-                <p>Labour total: £175</p>
-                <p className="font-semibold text-white">Total invested: £4,825</p>
+                <p>Purchase price: £{Number(car.purchase_price ?? 0).toFixed(2)}</p>
+                <p>Recovery cost: £{Number(car.recovery_transport_cost ?? 0).toFixed(2)}</p>
+                <p>Parts total: £0.00</p>
+                <p>Labour total: £0.00</p>
+                <p className="font-semibold text-white">Total invested: £{invested.toFixed(2)}</p>
               </div>
             </div>
 
