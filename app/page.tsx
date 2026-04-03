@@ -2,10 +2,12 @@ import TopBar from "./components/topbar";
 import { supabase } from "./lib/supabase";
 
 export default async function Home() {
-  const { data: cars = [], error } = await supabase
-    .from("cars")
-    .select("*")
-    .order("created_at", { ascending: false });
+  const { data, error } = await supabase
+  .from("cars")
+  .select("*")
+  .order("created_at", { ascending: false });
+
+const cars = data ?? [];
 
   return (
     <main className="min-h-screen bg-zinc-950 text-white">
