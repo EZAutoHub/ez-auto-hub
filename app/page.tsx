@@ -1,13 +1,71 @@
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
 import TopBar from "./components/topbar";
 import { supabase } from "./lib/supabase";
 
-export default async function Home() {
-  const { data, error } = await supabase
-  .from("cars")
-  .select("*")
-  .order("created_at", { ascending: false });
+type Car = {
+  id: string;
+  registration: string;
+  make: string | null;
+  model: string | null;
+  year: number | null;
+  fuel_type: string | null;
+  engine: string | null;
+  transmission: string | null;
+  colour: string | null;
+  mileage: number | null;
+  vin: string | null;
+  purchase_price: number | null;
+  recovery_transport_cost: number | null;
+  initial_notes: string | null;
+  status: string | null;
+  created_at: string;
+};
 
-const cars = data ?? [];
+type FilterKey = "Purchased" | "In Work" | "For Sale" | "Sold";
+
+const FILTER_GROUPS: Record<FilterKey, string[]> = {
+  Purchased: ["Purchased", "Initial Diagnosis"],
+  "In Work": ["In Repair", "Running / Road Test", "Cosmetic Prep"],
+  "For Sale": ["Ready for Sale", "Published"],
+  Sold: ["Sold"],
+};
+
+export default function Home() {
+  const [cars, setCars] = useState<Car[]>([]);
+  const [activeFilter, setActiveFilter] = useState<FilterKey>("Purchased");
+  const [loading, setLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    async function loadCars() {
+      setLoading(true);
+      setErrorMessage("");
+
+      const { data, error } = await supabase
+        .from("cars")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        setErrorMessage(error.message);
+        setCars([]);
+        setLoading(false);
+        return;
+      }
+
+      setCars((data as Car[]) ?? []);
+      setLoading(false);
+    }
+
+    loadCars();
+  }, []);
+
+  const filteredCars = useMemo(() => {
+    const allowedStatuses = FILTER_GROUPS[activeFilter];
+    return cars.filter((car) => allowedStatuses.includes(car.status ?? "Purchased"));
+  }, [cars, activeFilter]);
 
   return (
     <main className="min-h-screen bg-zinc-950 text-white">
@@ -19,33 +77,42 @@ const cars = data ?? [];
 
         <section className="mb-8">
           <div className="flex flex-wrap gap-3">
-            <button className="rounded-full bg-white px-4 py-2 text-sm font-medium text-black">
-              Purchased
-            </button>
-            <button className="rounded-full border border-zinc-700 px-4 py-2 text-sm text-zinc-300">
-              In Work
-            </button>
-            <button className="rounded-full border border-zinc-700 px-4 py-2 text-sm text-zinc-300">
-              For Sale
-            </button>
-            <button className="rounded-full border border-zinc-700 px-4 py-2 text-sm text-zinc-300">
-              Sold
-            </button>
+            {(["Purchased", "In Work", "For Sale", "Sold"] as FilterKey[]).map((filter) => {
+              const active = activeFilter === filter;
+
+              return (
+                <button
+                  key={filter}
+                  onClick={() => setActiveFilter(filter)}
+                  className={
+                    active
+                      ? "rounded-full bg-white px-4 py-2 text-sm font-medium text-black"
+                      : "rounded-full border border-zinc-700 px-4 py-2 text-sm text-zinc-300"
+                  }
+                >
+                  {filter}
+                </button>
+              );
+            })}
           </div>
         </section>
 
-        {error ? (
-          <div className="rounded-2xl border border-red-800 bg-red-950 p-5 text-red-300">
-            Failed to load cars: {error.message}
-          </div>
-        ) : cars.length === 0 ? (
+        {loading ? (
           <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-8 text-center">
-            <h2 className="text-2xl font-semibold">No cars yet</h2>
-            <p className="mt-2 text-zinc-400">Add your first vehicle to get started.</p>
+            <h2 className="text-2xl font-semibold">Loading cars...</h2>
+          </div>
+        ) : errorMessage ? (
+          <div className="rounded-2xl border border-red-800 bg-red-950 p-5 text-red-300">
+            Failed to load cars: {errorMessage}
+          </div>
+        ) : filteredCars.length === 0 ? (
+          <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-8 text-center">
+            <h2 className="text-2xl font-semibold">No cars in {activeFilter}</h2>
+            <p className="mt-2 text-zinc-400">Try another filter or add a new vehicle.</p>
           </div>
         ) : (
           <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {cars.map((car) => {
+            {filteredCars.map((car) => {
               const invested =
                 Number(car.purchase_price ?? 0) + Number(car.recovery_transport_cost ?? 0);
 
@@ -60,14 +127,12 @@ const cars = data ?? [];
                       <h2 className="text-2xl font-bold">{car.registration}</h2>
                     </div>
                     <span className="rounded-full bg-zinc-800 px-3 py-1 text-xs text-zinc-300">
-                      {car.status}
+                      {car.status ?? "Purchased"}
                     </span>
                   </div>
 
                   <div className="space-y-2 text-sm text-zinc-300">
-                    <p>
-                      {[car.year, car.make, car.model].filter(Boolean).join(" ")}
-                    </p>
+                    <p>{[car.year, car.make, car.model].filter(Boolean).join(" ") || "—"}</p>
                     <p>Total invested: £{invested.toFixed(2)}</p>
                     <p>Fuel: {car.fuel_type || "—"}</p>
                     <p>Mileage: {car.mileage ?? "—"}</p>
