@@ -104,9 +104,12 @@ export default function CarDetailsPage() {
                 <button className="w-full rounded-xl border border-zinc-700 px-4 py-3 text-sm text-zinc-300">
                   Upload Photos
                 </button>
-                <button className="w-full rounded-xl border border-zinc-700 px-4 py-3 text-sm text-zinc-300">
-                  Open Sale Prep
-                </button>
+               <a
+  href="/sale-prep"
+  className="block w-full rounded-xl border border-zinc-700 px-4 py-3 text-center text-sm text-zinc-300"
+>
+  Open Sale Prep
+</a>
               </div>
             </div>
           </aside>
