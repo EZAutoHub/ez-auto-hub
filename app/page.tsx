@@ -9,9 +9,12 @@ export default function Home() {
               Multi-tenant garage workflow and vehicle sales platform
             </p>
           </div>
-          <button className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-black">
-            Add Car
-          </button>
+          <a
+  href="/add-car"
+  className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-black"
+>
+  Add Car
+</a>
         </header>
 
         <section className="mb-8">
@@ -51,9 +54,12 @@ export default function Home() {
             </div>
 
             <div className="mt-5 flex gap-2">
-              <button className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-black">
-                Open Car
-              </button>
+<a
+  href="/cars/1"
+  className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-black"
+>
+  Open Car
+</a>
               <button className="rounded-xl border border-zinc-700 px-4 py-2 text-sm text-zinc-300">
                 Add Work
               </button>
