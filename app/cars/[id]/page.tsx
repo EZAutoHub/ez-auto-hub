@@ -1,8 +1,11 @@
 import TopBar from "../../components/topbar";
+
 export default function CarDetailsPage() {
   return (
     <main className="min-h-screen bg-zinc-950 text-white">
       <div className="mx-auto max-w-6xl px-6 py-10">
+        <TopBar title="Car Details" subtitle="Vehicle overview, findings, work, and costs" simple />
+
         <div className="mb-8 flex items-start justify-between border-b border-zinc-800 pb-6">
           <div>
             <p className="text-sm text-zinc-400">Registration</p>
@@ -21,7 +24,7 @@ export default function CarDetailsPage() {
         </div>
 
         <section className="grid gap-6 lg:grid-cols-3">
-          <div className="lg:col-span-2 space-y-6">
+          <div className="space-y-6 lg:col-span-2">
             <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
               <h2 className="mb-4 text-xl font-semibold">Vehicle Details</h2>
               <div className="grid gap-3 text-sm text-zinc-300 md:grid-cols-2">
@@ -64,9 +67,12 @@ export default function CarDetailsPage() {
             <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
               <div className="mb-4 flex items-center justify-between">
                 <h2 className="text-xl font-semibold">Work Log</h2>
-                <button className="rounded-xl border border-zinc-700 px-4 py-2 text-sm text-zinc-300">
+                <a
+                  href="/work-log"
+                  className="rounded-xl border border-zinc-700 px-4 py-2 text-sm text-zinc-300"
+                >
                   Add Work
-                </button>
+                </a>
               </div>
 
               <div className="space-y-3 text-sm text-zinc-300">
@@ -104,12 +110,12 @@ export default function CarDetailsPage() {
                 <button className="w-full rounded-xl border border-zinc-700 px-4 py-3 text-sm text-zinc-300">
                   Upload Photos
                 </button>
-               <a
-  href="/sale-prep"
-  className="block w-full rounded-xl border border-zinc-700 px-4 py-3 text-center text-sm text-zinc-300"
->
-  Open Sale Prep
-</a>
+                <a
+                  href="/sale-prep"
+                  className="block w-full rounded-xl border border-zinc-700 px-4 py-3 text-center text-sm text-zinc-300"
+                >
+                  Open Sale Prep
+                </a>
               </div>
             </div>
           </aside>
