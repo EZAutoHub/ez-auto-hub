@@ -1,13 +1,13 @@
+import TopBar from "../components/topbar";
 export default function AddCarPage() {
   return (
     <main className="min-h-screen bg-zinc-950 text-white">
       <div className="mx-auto max-w-3xl px-6 py-10">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold tracking-tight">Add Car</h1>
-          <p className="mt-2 text-sm text-zinc-400">
-            Create a new vehicle record for EZ Auto Hub
-          </p>
-        </div>
+     <TopBar
+  title="Add Car"
+  subtitle="Create a new vehicle record for EZ Auto Hub"
+  simple
+/>
 
         <form className="space-y-6 rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
           <div className="grid gap-4 md:grid-cols-2">

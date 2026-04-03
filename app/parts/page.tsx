@@ -1,18 +1,14 @@
+import TopBar from "../components/topbar";
+
 export default function PartsPage() {
   return (
     <main className="min-h-screen bg-zinc-950 text-white">
       <div className="mx-auto max-w-6xl px-6 py-10">
-        <div className="mb-8 flex items-center justify-between border-b border-zinc-800 pb-6">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">Parts</h1>
-            <p className="mt-2 text-sm text-zinc-400">
-              Track ordered, received, and fitted parts across all vehicles
-            </p>
-          </div>
-          <button className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-black">
-            Add Part
-          </button>
-        </div>
+        <TopBar
+          title="Parts"
+          subtitle="Track ordered, received, and fitted parts across all vehicles"
+          simple
+        />
 
         <section className="mb-8">
           <div className="flex flex-wrap gap-3">
