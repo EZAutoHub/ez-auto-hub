@@ -3,76 +3,79 @@ import TopBar from "../components/topbar";
 export default function PartsPage() {
   return (
     <main className="min-h-screen bg-zinc-950 text-white">
-      <div className="mx-auto max-w-6xl px-6 py-10">
+      <div className="mx-auto max-w-7xl px-6 py-10">
         <TopBar
           title="Parts"
-          subtitle="Track ordered, received, and fitted parts across all vehicles"
+          subtitle="Track requested, ordered, arriving, and received parts across all work orders"
           simple
         />
 
-        <section className="mb-8">
-          <div className="flex flex-wrap gap-3">
-            <button className="rounded-full bg-white px-4 py-2 text-sm font-medium text-black">
-              All
-            </button>
-            <button className="rounded-full border border-zinc-700 px-4 py-2 text-sm text-zinc-300">
-              Needed
-            </button>
-            <button className="rounded-full border border-zinc-700 px-4 py-2 text-sm text-zinc-300">
-              Ordered
-            </button>
-            <button className="rounded-full border border-zinc-700 px-4 py-2 text-sm text-zinc-300">
-              Received
-            </button>
-            <button className="rounded-full border border-zinc-700 px-4 py-2 text-sm text-zinc-300">
-              Fitted
-            </button>
+        <section className="mb-6 grid gap-4 md:grid-cols-4">
+          <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
+            <p className="text-sm text-zinc-400">Awaiting Order</p>
+            <p className="mt-2 text-3xl font-bold">4</p>
+          </div>
+
+          <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
+            <p className="text-sm text-zinc-400">Awaiting Arrival</p>
+            <p className="mt-2 text-3xl font-bold">6</p>
+          </div>
+
+          <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
+            <p className="text-sm text-zinc-400">Received</p>
+            <p className="mt-2 text-3xl font-bold">3</p>
+          </div>
+
+          <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
+            <p className="text-sm text-zinc-400">Fitted</p>
+            <p className="mt-2 text-3xl font-bold">8</p>
           </div>
         </section>
 
-        <div className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900">
+        <section className="mb-6">
+          <input
+            type="text"
+            placeholder="Search by part, supplier, work order, or registration..."
+            className="w-full rounded-2xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none"
+          />
+        </section>
+
+        <section className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900">
           <table className="w-full text-left text-sm">
             <thead className="bg-zinc-950 text-zinc-400">
               <tr>
                 <th className="px-4 py-3">Part</th>
-                <th className="px-4 py-3">Car</th>
+                <th className="px-4 py-3">Work Order</th>
+                <th className="px-4 py-3">Vehicle</th>
                 <th className="px-4 py-3">Status</th>
-                <th className="px-4 py-3">Expected</th>
-                <th className="px-4 py-3">Cost</th>
+                <th className="px-4 py-3">Supplier</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-zinc-800 text-zinc-200">
               <tr>
-                <td className="px-4 py-4">Battery</td>
-                <td className="px-4 py-4">AB12 CDE</td>
-                <td className="px-4 py-4">Fitted</td>
-                <td className="px-4 py-4">—</td>
-                <td className="px-4 py-4">£95</td>
-              </tr>
-              <tr>
-                <td className="px-4 py-4">Wishbone / Control Arm</td>
-                <td className="px-4 py-4">AB12 CDE</td>
-                <td className="px-4 py-4">Ordered</td>
-                <td className="px-4 py-4">12 Apr 2026</td>
-                <td className="px-4 py-4">£120</td>
-              </tr>
-              <tr>
-                <td className="px-4 py-4">Brake Pads</td>
+                <td className="px-4 py-4">Front brake pads</td>
+                <td className="px-4 py-4">WO-1002</td>
                 <td className="px-4 py-4">YX19 FGH</td>
-                <td className="px-4 py-4">Received</td>
-                <td className="px-4 py-4">10 Apr 2026</td>
-                <td className="px-4 py-4">£68</td>
+                <td className="px-4 py-4">Awaiting Order</td>
+                <td className="px-4 py-4">Euro Car Parts</td>
               </tr>
               <tr>
-                <td className="px-4 py-4">Headlight</td>
+                <td className="px-4 py-4">Clutch kit</td>
+                <td className="px-4 py-4">WO-1003</td>
                 <td className="px-4 py-4">LM22 JKL</td>
-                <td className="px-4 py-4">Needed</td>
-                <td className="px-4 py-4">—</td>
-                <td className="px-4 py-4">£0</td>
+                <td className="px-4 py-4">Awaiting Arrival</td>
+                <td className="px-4 py-4">GSF</td>
+              </tr>
+              <tr>
+                <td className="px-4 py-4">Battery</td>
+                <td className="px-4 py-4">WO-1001</td>
+                <td className="px-4 py-4">AB12 CDE</td>
+                <td className="px-4 py-4">Received</td>
+                <td className="px-4 py-4">Local Supplier</td>
               </tr>
             </tbody>
           </table>
-        </div>
+        </section>
       </div>
     </main>
   );
