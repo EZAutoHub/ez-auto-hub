@@ -10,6 +10,21 @@ export default function VehiclesPage() {
           simple
         />
 
+        <section className="mb-6 flex items-center justify-between gap-4">
+          <input
+            type="text"
+            placeholder="Search by registration, VIN, make, model, or customer..."
+            className="w-full rounded-2xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none"
+          />
+
+          <a
+            href="/vehicles/add"
+            className="whitespace-nowrap rounded-xl bg-white px-5 py-3 text-sm font-semibold text-black"
+          >
+            Add Vehicle
+          </a>
+        </section>
+
         <section className="mb-6 grid gap-4 md:grid-cols-4">
           <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
             <p className="text-sm text-zinc-400">Total Vehicles</p>
@@ -30,14 +45,6 @@ export default function VehiclesPage() {
             <p className="text-sm text-zinc-400">Internal Vehicles</p>
             <p className="mt-2 text-3xl font-bold">10</p>
           </div>
-        </section>
-
-        <section className="mb-6">
-          <input
-            type="text"
-            placeholder="Search by registration, VIN, make, model, or customer..."
-            className="w-full rounded-2xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none"
-          />
         </section>
 
         <section className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900">
